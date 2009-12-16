@@ -1,6 +1,8 @@
 #ifndef HASH_FUNCTION_H
 #define HASH_FUNCTION_H
 
+#include "rand_function.h"
+
 typedef int hash_data[3];
 
 static int shift;

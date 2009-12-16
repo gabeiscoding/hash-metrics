@@ -24,13 +24,12 @@
 #define CUCKOO_H 
 
 #include "hash_function.h"
-#include "rand_function.h"
 
-typedef struct cell {       /* hash table cell type */ 
+struct cell {       /* hash table cell type */ 
   int key; 
-} celltype;
+};
 
-typedef struct {            /* dictionary type */ 
+struct dict {            /* dictionary type */ 
   int size;                 /* current size */
   int shift;                /* value used for hash function */
   int tablesize;            /* size of hash tables */
@@ -40,30 +39,9 @@ typedef struct {            /* dictionary type */
   struct cell *T2;          /* point to hash table 2*/
   hash_data a1;                /* hash function 1 */
   hash_data a2;                /* hash function 2 */
-} dict;
+};
 
-typedef dict *dict_ptr;
-/*#include "ddriver.h"*/
-
-/* copied from ddriver.h */
-#define DETAIL 0 /* 0 = no output trace, 1 = output trace */ 
-
-#define TRUE 1
-#define FALSE 0
-
-typedef int boolean;
-
-extern dict_ptr    construct_dict(int min_size); 
-extern boolean     insert       (dict_ptr D, int key);
-extern boolean     lookup       (dict_ptr D, int key); 
-extern boolean     delete       (dict_ptr D, int key); 
-extern int         keyval       (dict_ptr D, int key);
-extern int         size         (dict_ptr D); 
-extern void        clear        (dict_ptr D, int min_size); 
-extern dict_ptr    destruct_dict(dict_ptr D); 
-
-/* end ddriver.h */
-
+#include "driver.h"
 
 /* The below hash function was found to work well in practice */
 /* There is no proof that this is always the case, and there  */
