@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "rand.h"
 
 /*
  * Globals for this file:
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]) {
       hash_function = atoi(argv[i] + 3);
     else if(strstr(argv[i], "-g=") != NULL)
       //random number generator function:
-      randGen_function = atoi(argv[i] + 3);
+      set_kind(atoi(argv[i] + 3));
     else if(strstr(argv[i], "-e=") != NULL)
       //empirical test function:
       empTest_function = atoi(argv[i] + 3);
@@ -52,7 +53,10 @@ int main(int argc, char *argv[]) {
     else
       printf("Unknown command: %s\n", argv[i]);
   }
-  
+  //init_with_TOD();
+  init(12345689);
+  for(i=0; i<1000; i++)
+    printf("%f\n", unif_rand());
   return 0;
 }
 
