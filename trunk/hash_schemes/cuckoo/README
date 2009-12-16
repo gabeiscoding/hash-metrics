@@ -1,0 +1,98 @@
+README file for Cuckoo Hashing dictionary library and example program
+----------------------------------------------------------------------
+
+
+BACKGROUND
+----------------------------------------------------------------------
+
+For a describtion of Cuckoo Hashing we refer to the paper
+CUCKOO HASHING, by Rasmus Pagh and Flemming Friche Rodler,
+accepted for European Symposium on Algorithms 2001.
+
+The paper and source code is available in electronic form from the
+authors' homepages: www.brics.dk/~pagh/ and www.brics.dk/~ffr/
+
+
+FILES
+----------------------------------------------------------------------
+
+You should have the following files:
+
+README
+alice.dat
+alice.in 
+cuckoo.c
+cuckoo.h
+ddriver.h
+ddriver.c
+
+
+cuckoo.c: Library file containing the dictionary operations of cuckoo
+          hashing.
+
+ddriver.c: Example driver program. Can be used to test the operations
+           of cuckoo.c. The file is a heavily modified version of the
+           ddriver.c program from the  5th DIMACS implementation
+           challenge.
+
+alice.dat: Test file taken from the 5th DIMACS implementation
+           challenge.
+
+alice.in: "Conversion" of alice.dat to the format accepted by the
+          driver program (assuming that an int is 32 bits).
+
+
+USAGE
+----------------------------------------------------------------------
+
+The test program can be compiled using gcc as:
+
+     gcc cuckoo.c ddriver.c -o cuckoo -lm -ansi -Wall -pedantic
+
+The program is run on the example file as follows:
+     cuckoo [tablesize] < alice.in
+[tablesize] is an optional parameter specifying initial size of
+the hash tables. A trace file is produced if the DETAIL flag in
+ddriver.h was set.
+
+
+TERMS OF USAGE
+----------------------------------------------------------------------
+
+Permission to use, copy, modify and distribute this software and
+its documentation for any purpose is hereby granted without fee,
+provided that due acknoweledgement to the authors are provided and
+this permission notice appears in all copies of the software.
+The software is provided "as is". There is no warranty of any kind.
+
+Authors:
+    Rasmus Pagh and Flemming Friche Rodler
+    BRICS (Basic Research In Computer Science}
+    Department of Computer Science
+    University of Aarhus, Denmark
+    {pagh,ffr}@brics.dk
+
+Date: June 27, 2001.  
+
+
+NOTES
+----------------------------------------------------------------------
+
+Below are some notes regarding the implementation of cuckoo hashing.
+
+1) Keys are nonzero integer values (type int). The value 0 is used to
+   mark empty cells and cannot be used as a key.
+
+2) The dictionary is robust in that it correctly handles attempts to
+   insert an element already in the set and attempts to delete an
+   element not in the set.
+
+3) The dictionary is designed to keep the load factor between 0.2 and
+   0.5. At these two load factors the hash tables are either doubled
+   or halved, and a rehash occurs.
+
+4) If not all keys can be accommodated a rehash occurs. If the load
+   factor is above 5/12 the table sizes are doubled.
+
+5) The program was tested on a Linux PC, but should work on other
+   platforms as well.
