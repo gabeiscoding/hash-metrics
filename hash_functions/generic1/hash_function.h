@@ -1,24 +1,19 @@
 #ifndef HASH_FUNCTION_H
 #define HASH_FUNCTION_H
 
-#include "rand_function.h"
+typedef int hash_data[4];
 
-typedef int hash_data[3];
-
-static int shift;
-
-void hash_init(hash_data a, int _shift) {
-  shift = _shift;
+void hash_init(hash_data a) {
   a[0] = ((int)hash_rand() << 1) + 1;
   a[1] = ((int)hash_rand() << 1) + 1;
   a[2] = ((int)hash_rand() << 1) + 1;
+  a[3] = ((int)hash_rand() << 1) + 1;
 }
 
-int hash(hash_data a, int key) {
+int hash(hash_data a, int key, int mask) {
   int h;
-  h = (a[0]*key) ^ (a[1]*key) ^ (a[2]*key);
-  h = (unsigned int)h >> shift;
-  return h;
+  h = (a[0]*key) ^ (a[1]*key) ^ (a[2]*key) ^ (a[3]*key);
+  return h & mask;
 }
 
 #endif
