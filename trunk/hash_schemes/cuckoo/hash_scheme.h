@@ -28,7 +28,6 @@
 #include<math.h>
 
 #include "cuckoo.h" 
- 
 
 dict_ptr alloc_dict(int tablesize) {
 

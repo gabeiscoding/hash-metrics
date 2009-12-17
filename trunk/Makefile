@@ -1,4 +1,10 @@
 CC=gcc
 
-cuckoo:
-	$(CC) -o $@ driver.c hash_schemes/cuckoo/cuckoo.c -I. -Ihash_schemes/cuckoo -Irand_functions/libc -Ihash_functions/generic1 -lm
+HASH_SCHEME=-Ihash_schemes/cuckoo
+HASH_FN=-Ihash_functions/generic1
+
+INCLUDES=$(HASH_FN) $(HASH_SCHEME)
+LIBS=-lm
+
+cuckoo: rand_functions/hash_rand.o
+	$(CC) -o $@ driver.c $(LIBS) $(INCLUDES) $<
