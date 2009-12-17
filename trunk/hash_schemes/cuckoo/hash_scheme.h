@@ -49,8 +49,8 @@ dict_ptr alloc_dict(int tablesize) {
     fprintf(stderr,"Error while allocating mem for T2\n");
     exit(0);
   }
-  hash_init(D->a1, D->shift);
-  hash_init(D->a2, D->shift);
+  hash_init(D->a1);
+  hash_init(D->a2);
 
   return(D);
 }
@@ -65,13 +65,13 @@ boolean rehash_insert (dict_ptr D, int key)
 
   x.key = key; 
   for(j = 0; j < D->maxchain; j++) {
-    hkey = hash(D->a1, x.key);
+    hkey = hash(D->a1, x.key, D->shift);
     temp = D->T1[hkey];
     D->T1[hkey] = x;
     if (!temp.key) return TRUE;
     x = temp;
 
-    hkey = hash(D->a2, x.key);
+    hkey = hash(D->a2, x.key, D->shift);
     temp = D->T2[hkey];
     D->T2[hkey] = x;
     if (!temp.key) return TRUE;
@@ -81,8 +81,8 @@ boolean rehash_insert (dict_ptr D, int key)
   bzero(D->T1,D->tablesize * sizeof(celltype));
   bzero(D->T2,D->tablesize * sizeof(celltype));
 
-  hash_init(D->a1, D->shift);
-  hash_init(D->a2, D->shift);
+  hash_init(D->a1);
+  hash_init(D->a2);
 
   return FALSE;
 } /*rehash_insert*/ 
@@ -128,11 +128,11 @@ boolean insert (dict_ptr D, int key)
   celltype x,temp;
   
   /*If element already in D then replace and return*/
-  h1 = hash(D->a1, key);
+  h1 = hash(D->a1, key, D->shift);
   if(D->T1[h1].key==key) {
     return FALSE;
   }
-  h2 = hash(D->a2, key);
+  h2 = hash(D->a2, key, D->shift);
   if(D->T2[h2].key==key) {
     return FALSE;
   }
@@ -148,7 +148,7 @@ boolean insert (dict_ptr D, int key)
       return TRUE;
     }
     x = temp;
-    h2 = hash(D->a2, x.key);
+    h2 = hash(D->a2, x.key, D->shift);
     
     temp = D->T2[h2];
     D->T2[h2] = x;
@@ -158,7 +158,7 @@ boolean insert (dict_ptr D, int key)
       return TRUE;
     }
     x = temp;
-    h1 = hash(D->a1, x.key);
+    h1 = hash(D->a1, x.key, D->shift);
   }
  
   /* Forced rehash */
@@ -176,11 +176,11 @@ boolean lookup (dict_ptr D, int key)
 {
   unsigned long hkey;
 
-  hkey = hash(D->a1, key);
+  hkey = hash(D->a1, key, D->shift);
   if(D->T1[hkey].key==key) 
     return TRUE;
 
-  hkey = hash(D->a2, key);
+  hkey = hash(D->a2, key, D->shift);
   return (D->T2[hkey].key==key);
 
 }/*lookup*/ 
@@ -190,7 +190,7 @@ boolean delete (dict_ptr D, int key)
 { 
   unsigned long hkey;
 
-  hkey = hash(D->a1, key);
+  hkey = hash(D->a1, key, D->shift);
   if(D->T1[hkey].key==key) {
     D->T1[hkey].key = 0;
     D->size--;
@@ -198,7 +198,7 @@ boolean delete (dict_ptr D, int key)
     return TRUE;
   }
   else {
-    hkey = hash(D->a2, key);
+    hkey = hash(D->a2, key, D->shift);
     if(D->T2[hkey].key==key) {
       D->T2[hkey].key = 0;
       D->size--;

@@ -1,6 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h> 
+
 #include "driver.h"
+#include "rand.h"
+#include "hash_function.h"
+#include "hash_scheme.h"
+
 
 /*----------------------------------------------*/
 /* Dictionary driver based on the DIMACS driver */

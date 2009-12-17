@@ -4,6 +4,10 @@
 struct cell;
 typedef struct cell celltype;
 
+struct cell {       /* hash table cell type */ 
+  int key; 
+};
+
 struct dict;
 typedef struct dict dict;
 typedef dict *dict_ptr;

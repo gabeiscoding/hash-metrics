@@ -23,11 +23,11 @@
 #ifndef CUCKOO_H
 #define CUCKOO_H 
 
-#include "hash_function.h"
+/*#include "hash_function.h"*/
 
-struct cell {       /* hash table cell type */ 
-  int key; 
-};
+/*struct cell {*/       /* hash table cell type */ 
+/*  int key;*/ 
+/*};*/
 
 struct dict {            /* dictionary type */ 
   int size;                 /* current size */
@@ -41,7 +41,7 @@ struct dict {            /* dictionary type */
   hash_data a2;                /* hash function 2 */
 };
 
-#include "driver.h"
+/*#include "driver.h"*/
 
 /* The below hash function was found to work well in practice */
 /* There is no proof that this is always the case, and there  */
