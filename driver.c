@@ -1,10 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h> 
+#include <stdio.h>
+#include <stdlib.h> 
+#include <string.h>
 
 #include "driver.h"
-#include "rand.h"
-#include "hash_function.h"
-#include "hash_scheme.h"
 
 
 /*----------------------------------------------*/
@@ -15,6 +13,7 @@
 /* June 2001.                                   */ 
 /*----------------------------------------------*/
 
+static char *usage = "usage: %s [-m min_size] {-r rand_file}\n";
 
 /* Driver reads commands, calls routines, reports */
 int main(int argc, char **argv)
@@ -24,15 +23,30 @@ int main(int argc, char **argv)
   boolean found;
   char index;
   int i, min_size;
-
+  int argi;
+  char *rand_fn;
 
   min_size = 1024;
-  switch(argc) {
-  case 2: min_size = atoi(argv[1]);
-  case 1:
-    break;
-  default:
-    fprintf(stderr,"Usage: %s [min size]\n",argv[0]);
+  if(argc > 5) {
+    fprintf(stderr, usage, argv[0]);
+    exit(1);
+  }
+
+  argi = 1;
+  while(argi != argc) {
+    if(!strcmp("-m", argv[argi])) {
+      min_size = atoi(argv[argi]);
+      argi++;
+    } else if(!strcmp("-r", argv[argi])) {
+      rand_fn = argv[argi];
+      argi++;
+    }
+  }
+
+  if(rand_fn) {
+    hash_rand_init(rand_fn);
+  } else {
+    fprintf(stderr, usage, argv[0]);
     exit(1);
   }
 

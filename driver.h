@@ -28,5 +28,10 @@ extern int         size         (dict_ptr D);
 extern void        clear        (dict_ptr D, int min_size); 
 extern dict_ptr    destruct_dict(dict_ptr D); 
 
+#include "rand_functions/hash_rand.h"
+#include "hash_function.h"
+#include "hash_scheme.h"
+
+
 #endif 
 

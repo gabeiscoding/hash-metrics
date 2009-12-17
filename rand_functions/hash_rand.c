@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static FILE rand_f;
+static FILE *rand_f;
 
 void hash_rand_init(char *fn) {
-  FILE *rand_f = fopen(fn, "r");
+  rand_f = fopen(fn, "r");
   if(rand_f) {
     //buffer ?
   } else {
