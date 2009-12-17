@@ -6,8 +6,10 @@ typedef enum {
     MARSAGLIA_MULTICARRY,
     SUPER_DUPER,
     MERSENNE_TWISTER,
+    KNUTH_TAOCP, //Not working, same as KNUTH_TAOCP2 but with different initialization
     KNUTH_TAOCP2,
-    KNUTH_TAOCP, //Not working yet, requires some code to do initialization
+    LIBC,
+    PRAND,
 } RNGtype;
 
 /* Different kinds of "N(0,1)" generators :*/

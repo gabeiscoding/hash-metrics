@@ -16,11 +16,27 @@
 
 #include "rand.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
 
 //May have to change this based on your platform:
 #define HAVE_GETTIMEOFDAY 1
 #include <sys/time.h>
 typedef unsigned long long int uint64_t;
+
+
+/* Simple fast halfaway decent parallel random number generator
+ * Period length 2^31 - 1, least significant bits not very random
+ */
+
+unsigned int myRandState;
+
+/* seed and init generator */
+#define sMyPRand(s) (myRandState = (s) ^ ((int)37 << 15))
+
+/* get a random number between 0 and 2^32 - 1 */
+#define myPRand() (\
+   myRandState = (1664525L*myRandState + 1013904223L))
 
 
 #define _(A) A
@@ -121,6 +137,10 @@ double unif_rand(void)
     case MERSENNE_TWISTER:
 	return fixup(MT_genrand());
 
+    case LIBC:
+      return ((1.0*rand())/RAND_MAX);
+    case PRAND:
+      return ((1.0*myPRand())/ULONG_MAX);
     case KNUTH_TAOCP:
     case KNUTH_TAOCP2:
 	return fixup(KT_next() * KT);
@@ -216,6 +236,12 @@ static void RNG_Init(RNGtype kind, Int32 seed)
 	}
 	FixupSeeds(kind, 1);
 	break;
+    case LIBC:
+      srand(seed);
+      break;
+    case PRAND:
+      sMyPRand(seed);
+      break;
     case KNUTH_TAOCP:
 	RNG_Init_R_KT(seed);
 	break;
@@ -377,10 +403,10 @@ static double MT_genrand(void)
 
 
 #define long Int32
-#define ran_arr_buf       R_KT_ran_arr_buf
-#define ran_arr_cycle     R_KT_ran_arr_cycle
-#define ran_arr_ptr       R_KT_ran_arr_ptr
-#define ran_arr_sentinel  R_KT_ran_arr_sentinel
+//#define ran_arr_buf       R_KT_ran_arr_buf
+//#define ran_arr_cycle     R_KT_ran_arr_cycle
+//#define ran_arr_ptr       R_KT_ran_arr_ptr
+//#define ran_arr_sentinel  R_KT_ran_arr_sentinel
 #define ran_x             dummy
 
 #define KK 100                     /* the long lag */
