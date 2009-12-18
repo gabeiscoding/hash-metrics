@@ -6,11 +6,11 @@ typedef int hash_data[32];
 void hash_init(hash_data a) {
   int i;
   for(i=0; i<32; i++) {
-    a[i] = (int)hash_rand();
+    a[i] = hash_rand();
   }
 }
 
-int hash(hash_data a, int key) {
+int hash(hash_data a, int key, int mask) {
   int h, i;
   for (i=0; i<(4<<3); i+=8)
   {
@@ -24,7 +24,7 @@ int hash(hash_data a, int key) {
     if(k&0x40) h ^= a[i+6];
     if(k&0x80) h ^= a[i+7];
   }
-  return hash;
+  return hash & mask;
 }
 
 #endif

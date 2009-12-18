@@ -4,10 +4,10 @@
 typedef int hash_data[4];
 
 void hash_init(hash_data a) {
-  a[0] = ((int)hash_rand() << 1) + 1;
-  a[1] = ((int)hash_rand() << 1) + 1;
-  a[2] = ((int)hash_rand() << 1) + 1;
-  a[3] = ((int)hash_rand() << 1) + 1;
+  a[0] = (hash_rand() << 1) + 1;
+  a[1] = (hash_rand() << 1) + 1;
+  a[2] = (hash_rand() << 1) + 1;
+  a[3] = (hash_rand() << 1) + 1;
 }
 
 int hash(hash_data a, int key, int mask) {
