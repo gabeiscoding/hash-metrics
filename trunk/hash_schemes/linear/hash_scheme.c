@@ -1,23 +1,5 @@
 /*
- * cuckoo.c
- *
- * Dictionary code for cuckoo hashing.
- *
- * Permission to use, copy, modify and distribute this software and
- * its documentation for any purpose is hereby granted without fee,
- * provided that due acknoweledgement to the authors are provided and
- * this permission notice appears in all copies of the software.
- * The software is provided "as is". There is no warranty of any kind.
- *
- *
- * Authors:
- *     Rasmus Pagh and Flemming Friche Rodler
- *     BRICS (Basic Research In Computer Science}
- *     Department of Computer Science
- *     University of Aarhus, Denmark
- *     {pagh,ffr}@brics.dk
- * 
- * Date: June 27, 2001.  
+ * based on cuckoo.c
 */
 
 
