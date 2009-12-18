@@ -14,6 +14,7 @@ void hash_rand_init(char *fn) {
   if(rand_f) {
     fstat(fileno(rand_f), &st);
     rand_size = st.st_size;
+    rand_buf = malloc(rand_size);
     for(ri=0; ri<rand_size/4; ri++) {
       if(fread(rand_buf+ri, sizeof(int), 1, rand_f) != 1) {
         if(ferror(rand_f)) {
