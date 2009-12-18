@@ -1,18 +1,12 @@
 #ifndef DDRIVER_H
 #define DDRIVER_H
 
-struct cell;
-typedef struct cell celltype;
-
-struct cell {       /* hash table cell type */ 
-  int key; 
-};
-
 struct dict;
 typedef struct dict dict;
 typedef dict *dict_ptr;
 
-#define DETAIL 0 /* 0 = no output trace, 1 = output trace */ 
+#define DETAIL 1 /* 0 = no output trace, 1 = output trace */ 
+#define INTERACTIVE 1
 
 #define TRUE 1
 #define FALSE 0
@@ -29,9 +23,8 @@ extern void        clear        (dict_ptr D, int min_size);
 extern dict_ptr    destruct_dict(dict_ptr D); 
 
 #include "rand_functions/hash_rand.h"
-#include "hash_function.h"
-#include "hash_scheme.h"
-
+#include "hash_function.c"
+#include "hash_scheme.c"
 
 #endif 
 

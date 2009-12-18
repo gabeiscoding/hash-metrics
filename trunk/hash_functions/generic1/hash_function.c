@@ -1,6 +1,3 @@
-#ifndef HASH_FUNCTION_H
-#define HASH_FUNCTION_H
-
 typedef int hash_data[4];
 
 void hash_init(hash_data a) {
@@ -15,5 +12,3 @@ int hash(hash_data a, int key, int mask) {
   h = (a[0]*key) ^ (a[1]*key) ^ (a[2]*key) ^ (a[3]*key);
   return h & mask;
 }
-
-#endif

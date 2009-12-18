@@ -1,6 +1,3 @@
-#ifndef HASH_FUNCTION_H
-#define HASH_FUNCTION_H
-
 typedef int hash_data[32];
 
 void hash_init(hash_data a) {
@@ -24,7 +21,5 @@ int hash(hash_data a, int key, int mask) {
     if(k&0x40) h ^= a[i+6];
     if(k&0x80) h ^= a[i+7];
   }
-  return hash & mask;
+  return h & mask;
 }
-
-#endif
