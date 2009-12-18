@@ -1,4 +1,5 @@
-typedef int hash_data[4];
+#define RAND_SIZE_USED 4
+typedef int hash_data[RAND_SIZE_USED];
 
 void hash_init(hash_data a) {
   a[0] = (hash_rand() << 1) + 1;
