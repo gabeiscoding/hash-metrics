@@ -17,7 +17,7 @@ libs=-lm
 scheme=$1
 hash=$2
 
-[ "$3" == i ] && cflags="$cflags -DINTERATIVE=1"
+[ "$3" == i ] && cflags="$cflags -DINTERACTIVE=1"
 
 includes="-I$hash_fn_dir/$hash -I$hash_scheme_dir/$scheme"
 

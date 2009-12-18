@@ -5,9 +5,6 @@ struct dict;
 typedef struct dict dict;
 typedef dict *dict_ptr;
 
-#define DETAIL 1 /* 0 = no output trace, 1 = output trace */ 
-#define INTERACTIVE 1
-
 #define TRUE 1
 #define FALSE 0
 
