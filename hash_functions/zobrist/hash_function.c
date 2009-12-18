@@ -1,4 +1,4 @@
-#define RAND_SIZE_USED 1024
+#define RAND_SIZE_USED 8192
 typedef int hash_data[4][256];
 
 void hash_init(hash_data a) {
