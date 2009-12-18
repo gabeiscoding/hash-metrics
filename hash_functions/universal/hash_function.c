@@ -8,7 +8,7 @@ void hash_init(hash_data a) {
 }
 
 int hash(hash_data a, int key, int mask) {
-  int h, i;
+  int h=0, i;
   for (i=0; i<(4<<3); i+=8)
   {
     char k = ((char*)&key)[i>>3];
@@ -21,5 +21,6 @@ int hash(hash_data a, int key, int mask) {
     if(k&0x40) h ^= a[i+6];
     if(k&0x80) h ^= a[i+7];
   }
+  /*printf("[key=%d,hash=%x]\n", key, h & mask);*/
   return h & mask;
 }
