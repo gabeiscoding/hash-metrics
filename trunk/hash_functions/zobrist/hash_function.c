@@ -10,6 +10,6 @@ void hash_init(hash_data a) {
 int hash(hash_data a, int key, int mask) {
   int h, i;
   for(i=0; i<4; ++i)
-    h ^= a[i][((char*)key)[i]];
+    h ^= a[i][((char*)&key)[i]];
   return h & mask;
 }
