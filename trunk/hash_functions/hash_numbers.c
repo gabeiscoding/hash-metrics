@@ -5,10 +5,11 @@
 
 //Add a specific hash function directory to the include path
 #include <hash_function.c>
-int hash_fun_data[RAND_SIZE_USED];
+//int hash_fun_data[RAND_SIZE_USED]; //Too big for stack at times
+int* hash_fun_data;
 int hash_rand(){
   static int pos=0;
-  //printf("hash_rand %d %d\n", pos, hash_fun_data[pos]);
+  printf("hash_rand %d %d\n", pos, hash_fun_data[pos]);
   return hash_fun_data[pos++];
 }
 
@@ -18,7 +19,10 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "Note: compile with different hash functions");
     return 1;
   }
-
+  
+  printf("Using %d values to initialize the hash function\n", RAND_SIZE_USED);
+  hash_fun_data = (int*)malloc(sizeof(int)*RAND_SIZE_USED);
+  
   const char* inFileName = argv[1];
   const char* outFileName = argv[2];
   FILE * inFile;
@@ -53,6 +57,7 @@ int main(int argc, char *argv[]) {
   }
   hash_data data;
   hash_init(data);
+  free(hash_fun_data);
   
   do{
     read = fread((void*)&value, 1, 4, inFile);
@@ -65,7 +70,6 @@ int main(int argc, char *argv[]) {
   
   fclose(inFile);
   fclose (outFile);
-
   printf("Succesfully hashed %s and wrote output values to %s\n", inFileName, outFileName);
   return 0;
 }
