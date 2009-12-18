@@ -85,7 +85,7 @@ int insert(dict *d, int key) {
   chain *ch;
   int i;
 
-  hkey = hash(d->h1, key, d->kmask);
+  hkey = hash(d->h, key, d->kmask);
 
   ch = &d->t[hkey];
 
@@ -96,7 +96,7 @@ int insert(dict *d, int key) {
     ch->c = realloc(ch->c, ch->maxsize*2);
     ch->maxsize *= 2;
   } else if (!i) {
-    d->chain_size++;
+    d->nr_chains++;
   }
   ch->c[i].key = key;
   ch->size++;
