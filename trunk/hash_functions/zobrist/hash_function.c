@@ -3,7 +3,7 @@ typedef int hash_data[4][256];
 
 void hash_init(hash_data a) {
   int i,j;
-  for(i=0; i<32; i++)
+  for(i=0; i<4; i++)
     for(j=0; j<256; j++)
       a[i][j] = hash_rand();
 }
