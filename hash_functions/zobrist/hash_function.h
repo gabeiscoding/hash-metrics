@@ -6,7 +6,7 @@ typedef int hash_data[4][256];
 void hash_init(hash_data a) {
   int i;
   for(i=0; i<32; i++) {
-    a[i] = (int)hash_rand();
+    a[i] = hash_rand();
   }
 }
 
