@@ -1,8 +1,9 @@
-typedef int hash_data[32];
+#define RAND_SIZE_USED 32
+typedef int hash_data[RAND_SIZE_USED];
 
 void hash_init(hash_data a) {
   int i;
-  for(i=0; i<32; i++) {
+  for(i=0; i<RAND_SIZE_USED; i++) {
     a[i] = hash_rand();
   }
 }
