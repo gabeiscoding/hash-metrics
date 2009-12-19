@@ -27,7 +27,18 @@
 #include<time.h>
 #include<math.h>
 
-#include "cuckoo.h" 
+struct dict {            /* dictionary type */ 
+  int size;                 /* current size */
+  int shift;                /* value used for hash function */
+  int tablesize;            /* size of hash tables */
+  int minsize,meansize;     /* rehash trigger sizes */
+  int maxchain;             /* max. iterations in insert */
+  int kmask;
+  struct cell *T1;          /* point to hash table 1*/
+  struct cell *T2;          /* point to hash table 2*/
+  hash_data a1;                /* hash function 1 */
+  hash_data a2;                /* hash function 2 */
+};
 
 typedef struct cell celltype;
 
@@ -46,6 +57,7 @@ dict_ptr alloc_dict(int tablesize) {
   D->meansize = 5*(2*tablesize)/12;
   D->minsize =  (2*tablesize)/5;  
   D->shift = 32 - (int)(log(tablesize)/log(2)+0.5);
+  D->kmask = tablesize - 1;
   D->maxchain = 4+(int)(4*log(tablesize)/log(2)+0.5);
   if((D->T1 = (celltype *)calloc(tablesize,sizeof(celltype))) == NULL) {
     fprintf(stderr,"Error while allocating mem for T1\n");
@@ -71,13 +83,13 @@ boolean rehash_insert (dict_ptr D, int key)
 
   x.key = key; 
   for(j = 0; j < D->maxchain; j++) {
-    hkey = hash(D->a1, x.key, D->shift);
+    hkey = hash(D->a1, x.key) & D->kmask;
     temp = D->T1[hkey];
     D->T1[hkey] = x;
     if (!temp.key) return TRUE;
     x = temp;
 
-    hkey = hash(D->a2, x.key, D->shift);
+    hkey = hash(D->a2, x.key) & D->kmask;
     temp = D->T2[hkey];
     D->T2[hkey] = x;
     if (!temp.key) return TRUE;
@@ -133,11 +145,11 @@ boolean insert (dict_ptr D, int key)
   celltype x,temp;
   
   /*If element already in D then replace and return*/
-  h1 = hash(D->a1, key, D->shift);
+  h1 = hash(D->a1, key) & D->kmask;
   if(D->T1[h1].key==key) {
     return FALSE;
   }
-  h2 = hash(D->a2, key, D->shift);
+  h2 = hash(D->a2, key) & D->kmask;
   if(D->T2[h2].key==key) {
     return FALSE;
   }
@@ -153,7 +165,7 @@ boolean insert (dict_ptr D, int key)
       return TRUE;
     }
     x = temp;
-    h2 = hash(D->a2, x.key, D->shift);
+    h2 = hash(D->a2, x.key) & D->kmask;
     
     temp = D->T2[h2];
     D->T2[h2] = x;
@@ -163,7 +175,7 @@ boolean insert (dict_ptr D, int key)
       return TRUE;
     }
     x = temp;
-    h1 = hash(D->a1, x.key, D->shift);
+    h1 = hash(D->a1, x.key) & D->kmask;
   }
  
   /* Forced rehash */
@@ -181,11 +193,11 @@ boolean lookup (dict_ptr D, int key)
 {
   unsigned long hkey;
 
-  hkey = hash(D->a1, key, D->shift);
+  hkey = hash(D->a1, key) & D->kmask;
   if(D->T1[hkey].key==key) 
     return TRUE;
 
-  hkey = hash(D->a2, key, D->shift);
+  hkey = hash(D->a2, key) & D->kmask;
   return (D->T2[hkey].key==key);
 
 }/*lookup*/ 
@@ -195,7 +207,7 @@ boolean delete (dict_ptr D, int key)
 { 
   unsigned long hkey;
 
-  hkey = hash(D->a1, key, D->shift);
+  hkey = hash(D->a1, key) & D->kmask;
   if(D->T1[hkey].key==key) {
     D->T1[hkey].key = 0;
     D->size--;
@@ -203,7 +215,7 @@ boolean delete (dict_ptr D, int key)
     return TRUE;
   }
   else {
-    hkey = hash(D->a2, key, D->shift);
+    hkey = hash(D->a2, key) & D->kmask;
     if(D->T2[hkey].key==key) {
       D->T2[hkey].key = 0;
       D->size--;

@@ -8,10 +8,10 @@ void hash_init(hash_data a) {
       a[i][j] = hash_rand();
 }
 
-int hash(hash_data a, int key, int mask) {
+int hash(hash_data a, int key) {
   int h=0, i;
   for(i=0; i<4; ++i)
     h ^= a[i][((char*)&key)[i]];
   /*printf("[hash=%x]\n", h & mask);*/
-  return h & mask;
+  return h;
 }

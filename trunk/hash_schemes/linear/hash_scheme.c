@@ -2,7 +2,6 @@
  * based on cuckoo.c
 */
 
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<strings.h>
@@ -19,36 +18,36 @@ typedef struct chain {
   cell *c;
 } chain;
 
-struct dict {            /* dictionary type */ 
-  int size;                 /* current size */
-  int tablesize;            /* size of hash tables */
-  int minsize,meansize;     /* rehash trigger sizes */
+struct dict {
+  int size;
+  int tablesize;
+  int minsize;
   int nr_chains;
   chain *t;
   int kmask;
   hash_data h;
+  int min_chainsize;
 };
 
 dict *alloc_dict(int tablesize) {
   dict *d;
   int i;
-  int default_chain_size;
   
   d = calloc(1,sizeof(dict));
   d->size = 0;
+  d->min_chainsize = 2;
   d->tablesize = tablesize;
-
-  d->meansize = 5*(2*tablesize)/12;
   d->minsize =  (2*tablesize)/5;  
+  d->kmask = tablesize - 1;
 
   if(!(d->t = calloc(tablesize, sizeof(chain)))) {
     fprintf(stderr,"Error while allocating mem for t\n");
     exit(0);
   }
   for(i=0; i<tablesize; i++) {
-    d->t[i].maxsize = default_chain_size;
+    d->t[i].maxsize = d->min_chainsize;
     d->t[i].size = 0;
-    if(!(d->t[i].c = calloc(default_chain_size, sizeof(cell)))) {
+    if(!(d->t[i].c = calloc(d->min_chainsize, sizeof(cell)))) {
       fprintf(stderr,"Error while allocating mem for chain\n");
       exit(0);
     }
@@ -71,7 +70,6 @@ void rehash(dict* d, int new_size) {
       insert(dnew, d->t[k].c[i].key);
 
   free(d->t);
-  dnew->size = d->size;
   *d = *dnew;
   free(dnew);
 }
@@ -85,11 +83,11 @@ int insert(dict *d, int key) {
   chain *ch;
   int i;
 
-  hkey = hash(d->h, key, d->kmask);
+  hkey = hash(d->h, key) & d->kmask;
 
   ch = &d->t[hkey];
 
-  for(i=0; i<ch->size && ch->c[i].key; i++)
+  for(i=0; i<ch->size; i++)
     if(ch->c[i].key == key) return 0;
 
   if(ch->size == i) {
@@ -111,11 +109,11 @@ int lookup(dict* d, int key) {
   int i;
   chain *ch;
 
-  hkey = hash(d->h, key, d->kmask);
+  hkey = hash(d->h, key) & d->kmask;
 
   ch = &d->t[hkey];
 
-  for(i=0; i<ch->size && ch->c[i].key; i++)
+  for(i=0; i<ch->size; i++)
     if(ch->c[i].key == key) return 1;
   return 0;
 }
@@ -125,19 +123,22 @@ int delete(dict *d, int key) {
   int i;
   chain *ch;
 
-  hkey = hash(d->h, key, d->kmask);
+  hkey = hash(d->h, key) & d->kmask;
 
   ch = &d->t[hkey];
 
-  for(i=0; i<ch->size && ch->c[i].key; i++) {
+  for(i=0; i<ch->size; i++) {
     if(ch->c[i].key == key) {
       d->size--;
+      ch->size--;
       if(!i) d->nr_chains--;
-//      if(d->size < d->minsize) ; /*rehash(d, d->tablesize/2);*/
       if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
-      for(; i<ch->size-1 && ch->c[i].key; i++)
+      else if(d->min_chainsize > ch->size && ch->size < ch->maxsize/2) {
+        ch->c = realloc(ch->c, ch->maxsize/2);
+        ch->maxsize = ch->maxsize/2;
+      }
+      for(; i<ch->size; i++)
         ch->c[i] = ch->c[i+1];
-      ch->c[i].key = 0;
       return 1;
     }
   }
