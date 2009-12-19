@@ -28,6 +28,7 @@ struct dict {            /* dictionary type */
   int kmask;
   hash_data h1;
   hash_data h2;
+  int min_chainsize;
 };
 
 dict *alloc_dict(int tablesize) {
@@ -37,17 +38,17 @@ dict *alloc_dict(int tablesize) {
   
   d = calloc(1,sizeof(dict));
   d->size = 0;
+  d->min_chainsize = 2;
   d->tablesize = tablesize;
-
-  d->meansize = 5*(2*tablesize)/12;
   d->minsize =  (2*tablesize)/5;  
+  d->kmask = tablesize - 1;
 
   if(!(d->t = calloc(tablesize, sizeof(chain)))) {
     fprintf(stderr,"Error while allocating mem for t\n");
     exit(0);
   }
   for(i=0; i<tablesize; i++) {
-    d->t[i].maxsize = default_chain_size;
+    d->t[i].maxsize = d->min_chainsize;
     d->t[i].size = 0;
     if(!(d->t[i].c = calloc(default_chain_size, sizeof(cell)))) {
       fprintf(stderr,"Error while allocating mem for chain\n");
@@ -73,7 +74,6 @@ void rehash(dict* d, int new_size) {
       insert(dnew, d->t[k].c[i].key);
 
   free(d->t);
-  dnew->size = d->size;
   *d = *dnew;
   free(dnew);
 }
@@ -85,18 +85,18 @@ dict *construct_dict(int min_size) {
 int insert(dict *d, int key) { 
   int hkey1;
   int hkey2;
-  chain *ch1, *ch2, *ch;
+  chain *chv[2], *ch;
   int i;
 
-  hkey1 = hash(d->h1, key, d->kmask);
-  hkey2 = hash(d->h2, key, d->kmask);
+  hkey1 = hash(d->h1, key) & d->kmask;
+  hkey2 = hash(d->h2, key) & d->kmask;
 
-  ch1 = &d->t[hkey1];
-  ch2 = &d->t[hkey2];
+  chv[0] = &d->t[hkey1];
+  chv[1] = &d->t[hkey2];
 
-  ch = ch2->size < ch1->size ? ch2 : ch1;
+  ch = chv[1]->size < chv[0]->size ? chv[1] : chv[0];
 
-  for(i=0; i<ch->size && ch->c[i].key; i++)
+  for(i=0; i<ch->size; i++)
     if(ch->c[i].key == key) return 0;
 
   if(ch->size == i) {
@@ -116,56 +116,51 @@ int insert(dict *d, int key) {
 int lookup(dict* d, int key) {
   int hkey1, hkey2;
   int i;
-  chain *ch1, *ch2;
+  chain *chv[2];
+  int ci;
 
-  hkey1 = hash(d->h1, key, d->kmask);
-  hkey2 = hash(d->h2, key, d->kmask);
+  hkey1 = hash(d->h1, key) & d->kmask;
+  hkey2 = hash(d->h2, key) & d->kmask;
 
-  ch1 = &d->t[hkey1];
-  ch2 = &d->t[hkey2];
+  chv[0] = &d->t[hkey1];
+  chv[1] = &d->t[hkey2];
 
-  for(i=0; i<ch1->size && ch1->c[i].key; i++)
-    if(ch1->c[i].key == key) return 1;
-  for(i=0; i<ch2->size && ch2->c[i].key; i++)
-    if(ch2->c[i].key == key) return 1;
+  for(ci=0; ci<2; ci++)
+    for(i=0; i<chv[ci]->size; i++)
+      if(chv[ci]->c[i].key == key) return 1;
+
   return 0;
 }
 
 int delete(dict *d, int key) {
   int hkey1, hkey2;
   int i;
-  chain *ch1, *ch2;
+  int ci;
+  chain *chv[2];
 
-  hkey1 = hash(d->h1, key, d->kmask);
-  hkey2 = hash(d->h2, key, d->kmask);
+  hkey1 = hash(d->h1, key) & d->kmask;
+  hkey2 = hash(d->h2, key) & d->kmask;
 
-  ch1 = &d->t[hkey1];
-  ch2 = &d->t[hkey2];
+  chv[0] = &d->t[hkey1];
+  chv[1] = &d->t[hkey2];
 
-  for(i=0; i<ch1->size && ch1->c[i].key; i++) {
-    if(ch1->c[i].key == key) {
-      d->size--;
-      if(!i) d->nr_chains--;
-//      if(d->size < d->minsize) ; /*rehash(d, d->tablesize/2);*/
-      if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
-      for(; i<ch1->size-1 && ch1->c[i].key; i++)
-        ch1->c[i] = ch1->c[i+1];
-      ch1->c[i].key = 0;
-      return 1;
+  for(ci=0; ci<2; ci++)
+    for(i=0; i<chv[ci]->size; i++) {
+      if(chv[ci]->c[i].key == key) {
+        d->size--;
+        chv[ci]->size--;
+        if(!i) d->nr_chains--;
+        if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
+        else if(d->min_chainsize > chv[ci]->size && chv[ci]->size < chv[ci]->maxsize/2) {
+          chv[ci]->c = realloc(chv[ci]->c, chv[ci]->maxsize/2);
+          chv[ci]->maxsize = chv[ci]->maxsize/2;
+        }
+        for(; i<chv[ci]->size; i++)
+          chv[ci]->c[i] = chv[ci]->c[i+1];
+        return 1;
+      }
     }
-  }
-  for(i=0; i<ch2->size && ch2->c[i].key; i++) {
-    if(ch2->c[i].key == key) {
-      d->size--;
-      if(!i) d->nr_chains--;
-//      if(d->size < d->minsize) ; /*rehash(d, d->tablesize/2);*/
-      if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
-      for(; i<ch2->size-1 && ch2->c[i].key; i++)
-        ch2->c[i] = ch2->c[i+1];
-      ch2->c[i].key = 0;
-      return 1;
-    }
-  }
+
   return 0;
 }
 

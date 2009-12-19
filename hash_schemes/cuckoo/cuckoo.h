@@ -29,17 +29,6 @@
 /*  int key;*/ 
 /*};*/
 
-struct dict {            /* dictionary type */ 
-  int size;                 /* current size */
-  int shift;                /* value used for hash function */
-  int tablesize;            /* size of hash tables */
-  int minsize,meansize;     /* rehash trigger sizes */
-  int maxchain;             /* max. iterations in insert */
-  struct cell *T1;          /* point to hash table 1*/
-  struct cell *T2;          /* point to hash table 2*/
-  hash_data a1;                /* hash function 1 */
-  hash_data a2;                /* hash function 2 */
-};
 
 /*#include "driver.h"*/
 

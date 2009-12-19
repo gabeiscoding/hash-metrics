@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
   do{
     read = fread((void*)&value, 1, 4, inFile);
     if(read == 4){
-      value = hash(data, value, 0xFFFFFFFF);
+      value = hash(data, value);
       written = fwrite((const void*)&value, 1, 4, outFile);
       //printf("written: %d\n", written);
     }

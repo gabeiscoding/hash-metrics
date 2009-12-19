@@ -30,7 +30,7 @@ void read_index(char *index) {
     if(r != 1) exit(1);
   } else {
     if(fread(index,1,1,stdin) != 1) {
-      if(ferror(stdin)) {}
+      if(ferror(stdin)) exit(1);
       else if(feof(stdin)) exit(0);
     }
   }
@@ -46,7 +46,7 @@ void read_key(int *key) {
     if(r != 1) exit(1);
   } else {
     if(fread(&key,sizeof(int),1,stdin) != sizeof(int)) {
-      if(ferror(stdin)) {}
+      if(ferror(stdin)) exit(1);
       else if(feof(stdin)) exit(0);
     }
   }
