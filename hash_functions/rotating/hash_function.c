@@ -1,3 +1,4 @@
+#define RAND_SIZE_USED 1 //Can't be 0
 typedef int hash_data;
 
 void hash_init(hash_data a) {
