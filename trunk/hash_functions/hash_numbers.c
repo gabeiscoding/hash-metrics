@@ -9,7 +9,7 @@
 int* hash_fun_data;
 int hash_rand(){
   static int pos=0;
-  printf("hash_rand %d %d\n", pos, hash_fun_data[pos]);
+  //printf("hash_rand %d %d\n", pos, hash_fun_data[pos]);
   return hash_fun_data[pos++];
 }
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
   
-  printf("Using %d values to initialize the hash function\n", RAND_SIZE_USED);
+  //printf("Using %d values to initialize the hash function\n", RAND_SIZE_USED);
   hash_fun_data = (int*)malloc(sizeof(int)*RAND_SIZE_USED);
   
   const char* inFileName = argv[1];

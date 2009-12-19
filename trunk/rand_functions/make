@@ -1,0 +1,3 @@
+#!/bin/bash
+gcc -o write-rand main.c rand.c
+gcc -o read_bin read_bin.c
