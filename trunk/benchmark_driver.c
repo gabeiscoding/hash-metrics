@@ -46,7 +46,7 @@ void read_key(int *key) {
     r = scanf("%d", key);
     if(r != 1) exit(1);
   } else {
-    if(fread(&key,sizeof(int),1,stdin) != sizeof(int)) {
+    if(fread(key,sizeof(int),1,stdin) != sizeof(int)) {
       if(ferror(stdin)) exit(1);
       else if(feof(stdin)) exit(0);
     }

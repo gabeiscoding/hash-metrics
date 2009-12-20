@@ -15,7 +15,7 @@ cflags="$cflags -O2 -DDETAIL=0 -DINTERACTIVE=0"
 
 hash_scheme_dir=hash_schemes
 hash_fn_dir=hash_functions
-bin_dir=bin
+bin_dir=bin-bench
 
 libs=-lm
 
