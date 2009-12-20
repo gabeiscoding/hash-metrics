@@ -98,18 +98,20 @@ static void RNG_Init_R_KT(Int32);
 static void RNG_Init_KT2(Int32);
 #define KT_pos (RNG_Table[KNUTH_TAOCP].i_seed[100])
 
-static double fixup(double x)
+static unsigned int fixup(double x)
 {
     /* ensure 0 and 1 are never returned */
-    if(x <= 0.0) return 0.5*i2_32m1;
-    if((1.0 - x) <= 0.0) return 1.0 - 0.5*i2_32m1;
-    return x;
+    if(x <= 0.0) x = 0.5*i2_32m1;
+    if((1.0 - x) <= 0.0) x = 1.0 - 0.5*i2_32m1;
+    return x*ULONG_MAX;
 }
 
 
-double unif_rand(void)
+unsigned int unif_rand(void)
 {
-    double value;
+    unsigned int value;
+    unsigned int tmp;
+    double v;
 
     switch(RNG_kind) {
 
@@ -117,8 +119,8 @@ double unif_rand(void)
 	I1 = I1 * 171 % 30269;
 	I2 = I2 * 172 % 30307;
 	I3 = I3 * 170 % 30323;
-	value = I1 / 30269.0 + I2 / 30307.0 + I3 / 30323.0;
-	return fixup(value - (int) value);/* in [0,1) */
+	v = I1 / 30269.0 + I2 / 30307.0 + I3 / 30323.0;
+	return fixup(v - (int) v);/* in [0,1) */
 
     case MARSAGLIA_MULTICARRY:/* 0177777(octal) == 65535(decimal)*/
 	I1= 36969*(I1 & 0177777) + (I1>>16);
@@ -138,16 +140,23 @@ double unif_rand(void)
 	return fixup(MT_genrand());
 
     case LIBC:
-      return ((1.0*rand())/RAND_MAX);
+      value = rand();
+      tmp = rand();
+      value ^= (tmp << 15);
+      tmp = rand();
+      value ^= (tmp << 30);
+      return value;
     case PRAND:
-      return ((1.0*myPRand())/ULONG_MAX);
+      return myPRand();
     case KNUTH_TAOCP:
     case KNUTH_TAOCP2:
 	return fixup(KT_next() * KT);
-
+   case BAD_LIBC:
+     return ((rand()*1.0)/RAND_MAX)*ULONG_MAX;
+     
     default:
 	error(_("unif_rand: unimplemented RNG kind %d"), RNG_kind);
-	return -1.;
+	return 0;
     }
 }
 
@@ -237,6 +246,9 @@ static void RNG_Init(RNGtype kind, Int32 seed)
 	FixupSeeds(kind, 1);
 	break;
     case LIBC:
+      srand(seed);
+      break;
+    case BAD_LIBC:
       srand(seed);
       break;
     case PRAND:

@@ -1,4 +1,5 @@
-void hash_rand_init(char *fn);
+void hash_rand_reset_counter();
+int hash_rand_init(char *fn);
 void lazy_hash_rand_init();
 int hash_rand();
 

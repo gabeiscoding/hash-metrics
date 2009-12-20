@@ -1,0 +1,38 @@
+#!/bin/bash
+
+HASH_FUNCTIONS="generic
+rotating
+universal
+zobrist"
+
+HASH_SCHEMES="cuckoo
+linear
+two-choice"
+
+cc=gcc
+#cflags="$cflags -g -DDETAIL=1"
+cflags="$cflags -O2 -DDETAIL=0 -DINTERACTIVE=0"
+
+hash_scheme_dir=hash_schemes
+hash_fn_dir=hash_functions
+bin_dir=bin
+
+libs=-lm
+
+#scheme=$1
+#hash=$2
+
+[ -d $bin_dir ] || mkdir $bin_dir
+
+for scheme in $HASH_SCHEMES
+do
+    for hash in $HASH_FUNCTIONS
+    do
+        includes="-I$hash_fn_dir/$hash -I$hash_scheme_dir/$scheme"
+        $cc $cflags -o $bin_dir/${scheme}_${hash} benchmark_driver.c $libs $includes rand_functions/hash_rand.c
+    done
+done
+
+#example run:
+#./bin/write_rand -g=6 -n=252144 ./data/rand_6.bin
+#./bin/cuckoo_universal -m 524288 -r ./data/rand_6.bin

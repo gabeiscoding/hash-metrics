@@ -5,7 +5,8 @@ RAND_FUNCTIONS="0
 3
 5
 6
-7"
+7
+8"
 
 HASH_FUNCTIONS="generic
 rotating
