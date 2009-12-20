@@ -8,7 +8,11 @@ void osum(char *filename)
   counter i, j, k;
   real *x, *y, *p, *pv, tmp, sum, a, b;
 
-  printf("Overlapping Sums test: ");
+  printf("Overlapping Sums test");
+  if(type == 't')
+    printf("\t");
+  else
+    printf(" ");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|            The  OVERLAPPING SUMS test                       |");
@@ -78,7 +82,7 @@ void osum(char *filename)
   tmp=KStest(pv, no_obs);
   free(pv);
 
-  printf("%f\n", tmp);
+  printf("%f", tmp);
 
   return;
 }

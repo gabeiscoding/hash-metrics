@@ -25,6 +25,8 @@ double Poisson(double lambda, int k);
 
 real KStest(real *x, int dim);
 
+char type;
+
 #endif /*_HEADER_H_*/
 
 

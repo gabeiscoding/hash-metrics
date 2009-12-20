@@ -10,7 +10,11 @@ void craptest(char *filename)
   counter f[21]; 
   real Ef[21], sum, mean, std, t, pvalue_w, pvalue_th;
 
-  printf("Craps Test (2 tests)\n");
+  printf("Craps Test (2 tests)");
+  if(type == 't')
+    printf("\t");
+  else
+    printf("\n");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|This the CRAPS TEST.  It plays 200,000 games of craps, counts|");
@@ -108,8 +112,14 @@ void craptest(char *filename)
   //printf("p=%8.5f\n", pvalue_th);
 
   //printf("\n\t\tSUMMARY of craptest on %s\n", filename);
-  printf("Test 1: %f\n", pvalue_w);
-  printf("Test 2: %f\n", pvalue_th);
+  if(type != 't')
+    printf("Test 1: ");
+  printf("%f", pvalue_w);
+  if(type == 't')
+    printf("\t");
+  else
+    printf("\nTest 2: ");
+  printf("%f", pvalue_th);
   //printf("\t_____________________________________________________________\n\n");
 
   return;

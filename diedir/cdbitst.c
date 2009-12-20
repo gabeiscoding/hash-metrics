@@ -50,7 +50,11 @@ void bitst(char *filename)
   printf("\t\t   BITSTREAM test results for %s.\n\n", filename);
   printf("\tBitstream\tNo. missing words\tz-score\t\tp-value\n");
   */
-  printf("Bitstream Test (20 tests)\n");
+  printf("Bitstream Test (20 tests)");
+  if(type == 't')
+    printf("\t");
+  else
+    printf("\n");
   
   wds=(counter*)malloc(dim*sizeof(counter));
 
@@ -83,7 +87,15 @@ void bitst(char *filename)
     }
 
     z=(no_mswds-mean)/std;
-    printf("Test %d: %f\n", i, 1-Phi(z));
+    if(type != 't')
+      printf("Test %d: ", i);
+    
+    printf("%f", 1-Phi(z));
+    
+    if(type == 't')
+      printf("\t");
+    else
+      printf("\n");
   }
 
   uni("close");

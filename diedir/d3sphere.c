@@ -12,7 +12,11 @@ void sphere(char *filename)
   real d, dmin;
   real *x, *y, *z, *p, r3, pvalue;
    
-  printf("3D Spheres test: ");
+  printf("3D Spheres test");
+  if(type == 't')
+    printf("\t");
+  else
+    printf(" ");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|             THE 3DSPHERES TEST                              |");
@@ -71,7 +75,7 @@ void sphere(char *filename)
   
   //puts("\t--------------------------------------------------------------");
   pvalue=KStest(p,no_obs);
-  printf("%f\n", pvalue);
+  printf("%f", pvalue);
   //puts("\n");
     
   free(p);

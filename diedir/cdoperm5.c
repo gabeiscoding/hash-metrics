@@ -93,8 +93,12 @@ void operm5(char *filename)
 
   fclose(infile);
 
-  printf("Overlapping 5-Permutation Tests (2 results)\n");
-
+  printf("Overlapping 5-Permutation Tests (2 results)");
+  if(type == 't')
+    printf("\t");
+  else
+    printf("\n");
+  
   for(i=1; i<=no_tests; ++i){
     for(j=0; j<120; ++j){
       f[j]=0;
@@ -127,8 +131,16 @@ void operm5(char *filename)
     }
 
     chsq/=ratio;
-
-    printf("Test %d: %f\n", i,1-Chisq(99,chsq));
+    
+    if(type != 't')
+      printf("Test %d: ", i);
+    
+    printf("%f", 1-Chisq(99,chsq));
+    
+    if(type == 't')
+      printf("\t");
+    else
+      printf("\n");
   }
   uni("close");
 

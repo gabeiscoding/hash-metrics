@@ -25,7 +25,11 @@ void squeez(char *filename)
                306.66, 179.39, 103.24, 58.51, 32.69, 18.03,  9.82, 11.21};
   real tmp, chsq=0;
   
-  printf("Squeeze test: ");
+  printf("Squeeze test");
+  if(type == 't')
+    printf("\t");
+  else
+    printf(" ");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|                 This is the SQUEEZE test                    |");
@@ -71,7 +75,7 @@ void squeez(char *filename)
   }
 
   //printf("\n\t\tChi-square with 42 degrees of freedom:%f\n", chsq);
-  printf("%f\n", 1-Chisq(42,chsq)); 
+  printf("%f", 1-Chisq(42,chsq)); 
   //printf("\t_____________________________________________________________\n\n");
 
   return;

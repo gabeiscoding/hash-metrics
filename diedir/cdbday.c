@@ -138,7 +138,12 @@ void bday(char *filename)
   puts("\n"); 
   */
 
-  printf("Birthday spacing: %f\n",pvalue);
+  printf("Birthday spacing");
+  if(type == 't')
+    printf("\t");
+  else
+    printf(" ");
+  printf("%f",pvalue);
 
   free(p);
  

@@ -85,7 +85,9 @@ void runtest(char *filename)
   int i, j, k;
   real *x, ustat, dstat, *pu, *pd, pv;
 
-  printf("Runs test (4 tests)\n");
+  printf("Runs test (4 tests)");
+  if(type != 't')
+    printf(" ");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|    This is the RUNS test.  It counts runs up, and runs down,|");
@@ -122,9 +124,17 @@ void runtest(char *filename)
 
     pv=KStest(pu,no_seqs);
     //printf("\t\t\t\tSet %d\n", i);
-    printf("Test %d: %f\n", 1 + ((i - 1) * 2), pv);
+    if(type == 't')
+      printf("\t");
+    else
+      printf("\nTest %d: ", 1 + ((i - 1) * 2));
+    printf("%f", pv);
     pv=KStest(pd,no_seqs);
-    printf("Test %d: %f\n", 2 + ((i - 1) * 2), pv);
+    if(type == 't')
+      printf("\t");
+    else
+      printf("\nTest %d: ", 2 + ((i - 1) * 2));
+    printf("%f", pv);
   }
   uni("close");
 

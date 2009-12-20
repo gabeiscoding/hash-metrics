@@ -11,7 +11,7 @@ void do_test(char *fn, char *tests[], int number)
     status[i]=0;
   }
   
-  for(i = 2; i < number; i++) {
+  for(i = 3; i < number; i++) {
     //while( (c=getchar())!='\n' ){
     //if( c==' ' ) continue;
 
@@ -62,21 +62,21 @@ void do_test(char *fn, char *tests[], int number)
     }    
 
     switch(tmp+1){
-      case 1: bday(fn); break;
-      case 2: operm5(fn); break;  
-      case 3: binrnk(fn,"31x31"); binrnk(fn,"32x32"); break;
-      case 4: binrnk(fn,"6x8"); break;   
-      case 5: bitst(fn); break;
-      case 6: monky(fn, "OPSO"); monky(fn, "OQSO"); monky(fn, "DNA"); break;
-      case 7: cnt1s(fn, "stream"); break;
-      case 8: cnt1s(fn, "specific"); break;   
-      case 9: park(fn); break;
-      case 10: mindist(fn); break; 
-      case 11: sphere(fn); break;
-      case 12: squeez(fn); break;
-      case 13: osum(fn); break;
-      case 14: runtest(fn); break;
-      case 15: craptest(fn); break;
+      case 1: bday(fn); printf("\n"); break;
+      case 2: operm5(fn); printf("\n"); break;  
+      case 3: binrnk(fn,"31x31"); printf("\n"); binrnk(fn,"32x32"); printf("\n");break;
+      case 4: binrnk(fn,"6x8"); printf("\n");break;   
+      case 5: bitst(fn); printf("\n"); break;
+      case 6: monky(fn, "OPSO"); printf("\n"); monky(fn, "OQSO"); printf("\n"); monky(fn, "DNA"); printf("\n"); break;
+      case 7: cnt1s(fn, "stream"); printf("\n"); break;
+      case 8: cnt1s(fn, "specific"); printf("\n");break;   
+      case 9: park(fn); printf("\n"); break;
+      case 10: mindist(fn); printf("\n"); break; 
+      case 11: sphere(fn); printf("\n"); break;
+      case 12: squeez(fn); printf("\n"); break;
+      case 13: osum(fn); printf("\n"); break;
+      case 14: runtest(fn); printf("\n"); break;
+      case 15: craptest(fn); printf("\n"); break;
       default: break;
     }
    
@@ -156,12 +156,16 @@ void diehard(char fn[], char *tests[], int number)
 
 main(int argc, char *argv[])
 {
-  if(argc >= 3)
+  if(argc >= 4) {
+    type = argv[2][0];
+    //printf("%c %c\n", argv[2][0], type);
     diehard(argv[1], argv, argc);
+  }
   else {
-    puts("\tNeed at least two arguments:");
+    puts("\tNeed at least three arguments:");
     puts("\tFirst, input file (bin file).");
-    puts("\tSecond, number of a test to run (see README).");
+    puts("\tSecond, output type ('t' for tab-delimited; 'h' for human readable");
+    puts("\tThird, number of a test to run (see README).");
     puts("\tOptionally, list more than one test number to run.");
   }
   
