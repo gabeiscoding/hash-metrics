@@ -13,7 +13,7 @@
 /*----------------------------------------------*/
 
 void usage(char **av) {
-  fprintf(stderr, "usage: %s [-m min_size] {-r rand_file}\n", av[0]);
+  fprintf(stderr, "usage: %s [-m min_size] [-r rand_file] [-i] [-ci] [-c command_file]\n", av[0]);
   exit(1);
 }
 
