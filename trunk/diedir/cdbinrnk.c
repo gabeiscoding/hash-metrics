@@ -54,8 +54,11 @@ void rnk_ttl(char *fn, char *test)
   puts("\t|-------------------------------------------------------------|");
  }
   */
-  printf("Rank test for binary matrices (%s): ", test);
-
+  printf("Rank test for binary matrices (%s)", test);
+  if(type == 't')
+    printf("\t");
+  else
+    printf(" ");
   return;
 }
 
@@ -174,7 +177,7 @@ real rnk_stat(char *fn, counter no_mtr, char *test, int rt, short not6x8)
   pvalue=1-Chisq( df, chsq );
   //printf("\n\t\tchi-square = %.3f with df = %d;", chsq, df);
   if(not6x8)
-    printf("%f\n", pvalue);
+    printf("%f", pvalue);
 
   //printf("\t--------------------------------------------------------------\n"); 
 
@@ -218,7 +221,7 @@ void binrnk(char *filename, char *test)
   printf("\t\t\tKS p-value = %.6f\n", KStest(p,25));   
   */
   
-  printf("%f\n", KStest(p,25));   
+  printf("%f", KStest(p,25));   
 
   free(p);
  

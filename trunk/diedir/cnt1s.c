@@ -63,7 +63,8 @@ real cnt_stat(char *fn, counter no_wds, char *test, int rshft)
   
   if( test[1]=='p' ){
     byte=getsb;
-    printf("Test %d: ", 25-rshft);
+    if(type != 't')
+      printf("Test %d: ", 25-rshft);
   }
   else{
     byte=getb;
@@ -116,8 +117,12 @@ real cnt_stat(char *fn, counter no_wds, char *test, int rshft)
   uni("close");
     
   z=(chsq-mean)/std;
-  printf("%f\n", 1-Phi(z));
-
+  printf("%f", 1-Phi(z));
+  if(type == 't')
+    printf("\t");
+  else
+    printf("\n");
+  
   return chsq;
 }
 
@@ -125,7 +130,9 @@ real cnt_stat(char *fn, counter no_wds, char *test, int rshft)
 void cnt_ttl(char *fn, char *test)
 {
  if( strncmp(test, "specific", 2 )==0){
-  puts("Count 1's test for specific bytes (25 tests)");
+  printf("Count 1's test for specific bytes (25 tests)");
+  if(type != 't')
+    printf("\n");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|    This is the COUNT-THE-1''s TEST for specific bytes.      |");
@@ -153,7 +160,9 @@ void cnt_ttl(char *fn, char *test)
  }
 
  else{
-  printf("Count 1's test for a stream of bytes: ");
+  printf("Count 1's test for a stream of bytes");
+  if(type != 't')
+    printf(" ");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|    This is the COUNT-THE-1''s TEST on a stream of bytes.    |");
@@ -177,6 +186,9 @@ void cnt_ttl(char *fn, char *test)
   */
  }
 
+ if(type == 't')
+   printf("\t");
+ 
  return;
 }
 

@@ -5,7 +5,7 @@ void monky_ttl(char *fn, char *test)
 {
  switch( test[1] ){
     case 'P':{
-  puts("Overlapping-Pairs-Sparse-Occupancy (23 tests)");
+  printf("Overlapping-Pairs-Sparse-Occupancy (23 tests)");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|        OPSO means Overlapping-Pairs-Sparse-Occupancy        |");
@@ -27,7 +27,7 @@ void monky_ttl(char *fn, char *test)
     }
 
     case 'Q':{
-  puts("Overlapping-Quadruples-Sparse-Occupancy (28 tests)");
+  printf("Overlapping-Quadruples-Sparse-Occupancy (28 tests)");
   /*
   puts("\n\t|------------------------------------------------------------ |");
   puts("\t|    OQSO means Overlapping-Quadruples-Sparse-Occupancy       |");
@@ -45,7 +45,7 @@ void monky_ttl(char *fn, char *test)
     }
 
     case 'N':{
-  puts("The DNA test (31 tests)");
+  printf("The DNA test (31 tests)");
   /*
   puts("\n\t|------------------------------------------------------------ |");
   puts("\t|    The DNA test considers an alphabet of 4 letters: C,G,A,T,|");
@@ -65,6 +65,11 @@ void monky_ttl(char *fn, char *test)
     default: puts("Wrong specification!!!"); exit(0);
   }
 
+ if(type == 't')
+   printf("\t");
+ else
+   printf("\n");
+ 
  //printf("\t\t\t   %s test for file %s\n\n", test, fn);
  //printf("\tBits used\tNo. missing words");
  //printf("\tz-score\t\tp-value\n");
@@ -148,8 +153,13 @@ real monky_stat(char *filename, char *test, int no_tests)
       }
 
       z=(no_mswds-mean)/std;
-      printf("Test %d: ", 33-rt-bits_pl);
-      printf("%f\n", 1-Phi(z));
+      if(type != 't')
+	printf("Test %d: ", 33-rt-bits_pl);
+      printf("%f", 1-Phi(z));
+      if(type == 't')
+	printf("\t");
+      else
+	printf("\n");
     }
  
     uni("close");

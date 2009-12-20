@@ -13,7 +13,11 @@ void park(char *filename)
   real *x, *y, mean, var, z, *p, pvalue; 
   counter sum=0, ss=0, i;
   
-  printf("Parking Lot test: ");
+  printf("Parking Lot test");
+  if(type == 't')
+    printf("\t");
+  else
+    printf(" ");
   /*
   puts("\t|-------------------------------------------------------------|");
   puts("\t|              THIS IS A PARKING LOT TEST                     |");
@@ -95,7 +99,7 @@ void park(char *filename)
  
   pvalue=KStest(p, no_obs);
   //printf("\t     p-value of the KSTEST for those %d", no_obs); 
-  printf("%f\n", pvalue);
+  printf("%f", pvalue);
     
   return;
 }

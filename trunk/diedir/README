@@ -2,8 +2,9 @@ To compile:
    make
 
 To run:
-   diehard file-name test(s)-to-run
-where file-name is the name of the input file
+   diehard file-name type test(s)-to-run
+where file-name is the name of the input file,
+type is 't' for a tab-delimited output or 'h' for a human readable output,
 and test(s)-to-run is a sequence of test numbers
 
 For example, to run all tests on file.bin:

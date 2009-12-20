@@ -33,7 +33,11 @@ void mindist(char *filename)
   real d, dmin;
   real *p, sum, pvalue;
 
-  printf("Minimum Distance test: ");
+  printf("Minimum Distance test");
+  if(type == 't')
+    printf("\t");
+  else
+    printf(" ");
   /*
   puts("\n\t|-------------------------------------------------------------|");
   puts("\t|              THE MINIMUM DISTANCE TEST                      |");
@@ -90,7 +94,7 @@ void mindist(char *filename)
   //puts("\t--------------------------------------------------------------");
   //printf("\tResult of KS test on %d transformed mindist^2's:", no_smpl);
   pvalue=KStest(p,no_smpl);
-  printf("p-value=%f\n", pvalue);
+  printf("%f", pvalue);
 
   free(p);
 
