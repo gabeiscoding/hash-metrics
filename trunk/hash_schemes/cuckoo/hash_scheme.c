@@ -46,6 +46,9 @@ struct cell {       /* hash table cell type */
   int key; 
 };
 
+//For maximum portability
+#define bzero(b,len) (memset((b), '\0', (len)), (void) 0)
+
 
 dict_ptr alloc_dict(int tablesize) {
 

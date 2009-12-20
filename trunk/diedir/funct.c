@@ -62,7 +62,7 @@ uniform uni(char *filename)
   }
 
   if( isopen=='n' ){
-    if( (infile=fopen(filename, "r"))==NULL ){
+    if( (infile=fopen(filename, "rb"))==NULL ){
       printf("can't open file %s!!!\n", filename);
       exit(1);
     }

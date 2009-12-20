@@ -10,6 +10,7 @@ typedef enum {
     KNUTH_TAOCP2,
     LIBC,
     PRAND,
+    BAD_LIBC
 } RNGtype;
 
 /* Different kinds of "N(0,1)" generators :*/
@@ -30,6 +31,6 @@ void init(Int32 seed);
 /* Init current RNG state with a Time of Day seed */
 void init_with_TOD();
 
-double unif_rand(void);
+unsigned int unif_rand(void);
 
 #endif

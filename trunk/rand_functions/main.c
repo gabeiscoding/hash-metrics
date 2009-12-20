@@ -23,7 +23,7 @@ int main(int argc, char *argv[]) {
   init(12345689);
   if(strcmp(filename,"stdout")==0){
     for(i=0; i<n; i++){
-      unsigned int r = (unsigned int)(unif_rand()*INT_MAX);
+      unsigned int r = unif_rand();
       printf("%u\n", r);
     }
   }else{
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     }
     
     for(i=0; i<n; i++){
-      unsigned int r = (unsigned int)(unif_rand()*INT_MAX);
+      unsigned int r = unif_rand();
       written = fwrite((const void*)&r, 1, 4, pFile);
       //printf("written: %d\n", written);
     }
