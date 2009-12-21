@@ -36,7 +36,7 @@ int hash_rand_init(char *fn) {
     }
   } else {
     srand(0);
-    rand_size = 4096*4;
+    rand_size = 4096*4096*4;
     rand_buf = malloc(rand_size);
     for(ri=0; ri<rand_size/4; ri++) rand_buf[ri] = rand();
   }

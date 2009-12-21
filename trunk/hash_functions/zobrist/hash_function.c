@@ -11,7 +11,7 @@ void hash_init(hash_data a) {
 int hash(hash_data a, int key) {
   int h=0, i;
   for(i=0; i<4; ++i)
-    h ^= a[i][((char*)&key)[i]];
+    h ^= a[i][((unsigned char*)&key)[i]];
   /*printf("[hash=%x]\n", h & mask);*/
   return h;
 }
