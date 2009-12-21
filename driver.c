@@ -314,7 +314,7 @@ int main(int argc, char **argv)
     } else if(!strcmp("-ci", argv[argi])) {
       argi++;
       insertall = 1;
-    } else if(!strcmp("-all", argv[argi])) {
+    } else if(!strcmp("-bench", argv[argi])) {
       argi++;
       bench = 1;
     } else if(!strcmp("-c", argv[argi])) {
@@ -338,7 +338,7 @@ int main(int argc, char **argv)
       fprintf(stderr, "error: specify -d\n");
       exit(1);
     }
-    df = fopen(data_fn, "r");
+    df = fopen(data_fn, "rb");
     if(!df) {
       fprintf(stderr, "error: couldn't open data file\n");
       exit(1);

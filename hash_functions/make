@@ -7,4 +7,4 @@ libs=-lm
 
 hash=$1
 
-$cc $cflags -o $1_hash_numbers hash_numbers.c -I$hash $libs 
+$cc $cflags -o ../bin/$1_hash_numbers hash_numbers.c -I$hash $libs 
