@@ -22,7 +22,7 @@ from rand.h
  5 = KNUTH_TAOCP2,
  6 = LIBC,
  7 = PRAND,
- 8 = BAD_LIBC,
+ 8 = BAD_LIBC
 
 
 For reference, read_bin.c shows how to read the binary files written.
