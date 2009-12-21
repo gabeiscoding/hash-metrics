@@ -90,8 +90,17 @@ int insert(dict *d, int key) {
   for(i=0; i<ch->size; i++)
     if(ch->c[i].key == key) return 0;
 
-  if(ch->size == i) {
-    ch->c = realloc(ch->c, ch->maxsize*2);
+  if(ch->maxsize == i) {
+    void *tmp = malloc(sizeof(cell) * ch->maxsize * 2);
+    if(tmp) {
+      memcpy(tmp, ch->c, ch->maxsize/2);
+      free(ch->c);
+      ch->c = tmp;
+    } else {
+      fprintf(stderr, "error: malloc failed at %s:%d\n", __FILE__, __LINE__);
+      kill(0, 2);
+      exit(1);
+    }
     ch->maxsize *= 2;
   } else if (!i) {
     d->nr_chains++;
@@ -134,7 +143,16 @@ int delete(dict *d, int key) {
       if(!i) d->nr_chains--;
       if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
       else if(d->min_chainsize > ch->size && ch->size < ch->maxsize/2) {
-        ch->c = realloc(ch->c, ch->maxsize/2);
+        void *tmp = malloc(sizeof(cell) * ch->maxsize/2);
+        if(tmp) {
+          memcpy(tmp, ch->c, ch->maxsize/2);
+          free(ch->c);
+          ch->c = tmp;
+        } else {
+          fprintf(stderr, "error: malloc failed at %s:%d\n", __FILE__, __LINE__);
+          kill(0, 2);
+          exit(1);
+        }
         ch->maxsize = ch->maxsize/2;
       }
       for(; i<ch->size; i++)
