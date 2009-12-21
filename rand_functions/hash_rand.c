@@ -45,5 +45,9 @@ int hash_rand_init(char *fn) {
 }
 
 int hash_rand() {
+  if(ri == rand_size/4) {
+    fprintf(stderr, "error: rand. number buffer is too small\n");
+    exit(1);
+  }
   return rand_buf[ri++];
 }
