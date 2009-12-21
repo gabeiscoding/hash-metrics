@@ -217,6 +217,7 @@ void insertall_interface(int *data_buf, int dsize) {
 void bench_interface(int *data_buf, int dsize) {
   //Start benchmark
   clock_t s_clock = clock();
+  clock_t e_clock;
   time_t  s_time; time(&s_time);
 
   int di;
@@ -226,7 +227,11 @@ void bench_interface(int *data_buf, int dsize) {
     key = data_buf[di];
     found = insert(D, key);
   }
-  printf("Inserted %d keys\n", dsize);
+  if(DETAIL)
+    printf("Inserted %d keys\n", dsize);
+  e_clock = clock();
+  if(!DETAIL)
+    printf("%.2f\t", (e_clock - s_clock)*1.0/CLOCKS_PER_SEC);
   
   for(di=0; di<dsize; di++) {
     key = data_buf[di];
@@ -236,19 +241,31 @@ void bench_interface(int *data_buf, int dsize) {
         printf("FAILED LOOKUP ITEM %d KEY %d\n", di+1, key);
     }
   }
-  printf("Looked up %d keys\n", dsize);
+  if(DETAIL)
+    printf("Looked up %d keys\n", dsize);
+  e_clock = clock();
+  if(!DETAIL)
+    printf("%.2f\t", (e_clock - s_clock)*1.0/CLOCKS_PER_SEC);
 
   for(di=0; di<dsize/2; di++) {
     key = data_buf[di];
     delete(D, key);
   }
-  printf("Deleted %d keys\n", dsize/2);
+  if(DETAIL)
+    printf("Deleted %d keys\n", dsize/2);
+  e_clock = clock();
+  if(!DETAIL)
+    printf("%.2f\t", (e_clock - s_clock)*1.0/CLOCKS_PER_SEC);
 
   for(di=0; di<dsize/2; di++) {
     key = data_buf[di];
     found = insert(D, key);
   }
-  printf("Inserted %d keys\n", dsize/2);
+  if(DETAIL)
+    printf("Inserted %d keys\n", dsize/2);
+  e_clock = clock();
+  if(!DETAIL)
+    printf("%.2f\t", (e_clock - s_clock)*1.0/CLOCKS_PER_SEC);
 
   for(di=0; di<dsize/2; di++) {
     key = data_buf[di];
@@ -258,15 +275,21 @@ void bench_interface(int *data_buf, int dsize) {
         printf("FAILED LOOKUP ITEM %d KEY %d\n", di+1, key);
     }
   }
-  printf("Looked up %d keys\n", dsize/2);
+  if(DETAIL)
+    printf("Looked up %d keys\n", dsize/2);
 
   //End timer
-  clock_t e_clock = clock();
+  e_clock = clock();
   time_t  e_time; time(&e_time);
 
   //Print time metrics
-  printf("clocks: %d\n", e_clock - s_clock);
-  printf("secs: %.21f\n", difftime(e_time, s_time));
+  if(DETAIL){
+    printf("clocks: %.2f\n", (e_clock - s_clock)*1.0/CLOCKS_PER_SEC);
+    printf("secs: %.21f\n", difftime(e_time, s_time));
+  }else{
+    printf("%.2f", (e_clock - s_clock)*1.0/CLOCKS_PER_SEC);
+    fflush(stdout);
+  }
 }
 
 /* Driver reads commands, calls routines, reports */

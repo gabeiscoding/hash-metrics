@@ -1,0 +1,96 @@
+cuckoo	generic	0	
+cuckoo	generic	1	
+cuckoo	generic	2	
+cuckoo	generic	3	
+cuckoo	generic	5	
+cuckoo	generic	6	
+cuckoo	generic	7	
+cuckoo	generic	8	
+cuckoo	rotating	0	
+cuckoo	rotating	1	
+cuckoo	rotating	2	
+cuckoo	rotating	3	
+cuckoo	rotating	5	
+cuckoo	rotating	6	
+cuckoo	rotating	7	
+cuckoo	rotating	8	
+cuckoo	universal	0	13.05	16.76	18.78	22.83	24.57
+cuckoo	universal	1	10.91	14.69	16.88	21.05	22.84
+cuckoo	universal	2	11.16	14.93	17.16	21.42	23.18
+cuckoo	universal	3	16.58	20.58	22.78	27.07	29.05
+cuckoo	universal	5	
+cuckoo	universal	6	17.19	21.09	23.19	27.38	29.22
+cuckoo	universal	7	10.54	14.12	16.15	20.20	21.93
+cuckoo	universal	8	16.39	20.47	22.73	27.07	29.01
+cuckoo	zobrist	0	5.60	8.11	9.79	12.64	13.80
+cuckoo	zobrist	1	5.61	8.12	9.79	12.65	13.79
+cuckoo	zobrist	2	5.63	8.14	9.82	12.68	13.82
+cuckoo	zobrist	3	5.64	8.14	9.82	12.70	13.84
+cuckoo	zobrist	5	15.63	18.93	20.87	24.36	25.86
+cuckoo	zobrist	6	5.63	8.16	9.84	12.71	13.86
+cuckoo	zobrist	7	5.62	8.13	9.80	12.67	13.80
+cuckoo	zobrist	8	10.90	13.80	15.57	18.77	20.07
+linear	generic	0	6.18	11.76	15.09	18.32	21.36
+linear	generic	1	6.04	11.45	14.62	17.68	20.58
+linear	generic	2	6.16	11.74	15.08	18.28	21.32
+linear	generic	3	6.03	11.32	14.42	17.42	20.26
+linear	generic	5	6.10	11.57	14.81	17.92	20.89
+linear	generic	6	6.05	11.38	14.49	17.52	20.39
+linear	generic	7	6.02	11.41	14.56	17.63	20.53
+linear	generic	8	6.03	11.42	14.58	17.63	20.55
+linear	rotating	0	5.10	9.33	12.00	14.63	16.98
+linear	rotating	1	5.10	9.32	11.99	14.61	16.96
+linear	rotating	2	5.09	9.32	11.99	14.61	16.96
+linear	rotating	3	5.09	9.32	11.99	14.62	16.97
+linear	rotating	5	5.10	9.33	12.00	14.64	16.99
+linear	rotating	6	5.11	9.33	12.00	14.63	16.98
+linear	rotating	7	5.10	9.33	11.99	14.61	16.96
+linear	rotating	8	5.09	9.31	11.97	14.61	16.96
+linear	universal	0	6.39	12.56	16.36	19.64	22.83
+linear	universal	1	6.38	12.56	16.36	19.60	22.77
+linear	universal	2	6.44	12.55	16.33	19.63	22.80
+linear	universal	3	6.36	12.48	16.28	19.52	22.69
+linear	universal	5	7.03	13.00	16.79	20.59	23.72
+linear	universal	6	6.56	12.61	16.33	19.71	22.86
+linear	universal	7	6.48	12.54	16.30	19.73	22.87
+linear	universal	8	6.81	12.77	16.49	19.97	23.10
+linear	zobrist	0	5.60	10.63	13.84	16.70	19.35
+linear	zobrist	1	5.61	10.65	13.85	16.71	19.36
+linear	zobrist	2	5.59	10.68	13.89	16.81	19.46
+linear	zobrist	3	5.59	10.62	13.83	16.68	19.33
+linear	zobrist	5	6.65	11.51	14.73	17.90	20.49
+linear	zobrist	6	5.59	10.65	13.85	16.70	19.35
+linear	zobrist	7	5.60	10.64	13.85	16.79	19.44
+linear	zobrist	8	5.95	10.93	14.15	17.15	19.78
+two-choice	generic	0	7.64	15.58	19.69	23.13	27.19
+two-choice	generic	1	7.73	15.24	19.22	22.64	26.48
+two-choice	generic	2	7.37	15.60	19.84	23.28	27.60
+two-choice	generic	3	7.60	14.99	18.93	22.35	26.19
+two-choice	generic	5	7.21	14.85	18.88	22.26	26.28
+two-choice	generic	6	7.56	14.78	18.67	22.02	25.79
+two-choice	generic	7	7.38	14.94	18.96	22.30	26.23
+two-choice	generic	8	7.56	15.20	19.21	22.62	26.56
+two-choice	rotating	0	5.29	9.92	12.58	15.31	17.95
+two-choice	rotating	1	5.28	9.92	12.58	15.31	17.96
+two-choice	rotating	2	5.29	9.94	12.60	15.32	17.98
+two-choice	rotating	3	5.30	9.93	12.60	15.32	17.97
+two-choice	rotating	5	5.28	9.94	12.60	15.32	17.97
+two-choice	rotating	6	5.29	9.92	12.60	15.31	17.96
+two-choice	rotating	7	5.29	9.93	12.59	15.31	17.97
+two-choice	rotating	8	5.28	9.92	12.58	15.30	17.95
+two-choice	universal	0	8.31	16.78	21.54	25.74	29.89
+two-choice	universal	1	8.27	16.56	21.27	25.43	29.50
+two-choice	universal	2	8.32	16.77	21.53	25.73	29.91
+two-choice	universal	3	8.25	16.55	21.26	25.41	29.49
+two-choice	universal	5	8.67	17.54	22.45	26.96	31.38
+two-choice	universal	6	8.41	17.00	21.72	25.95	30.16
+two-choice	universal	7	8.34	16.86	21.64	25.88	30.12
+two-choice	universal	8	8.55	17.34	22.14	26.58	30.94
+two-choice	zobrist	0	6.26	12.31	16.05	19.21	22.31
+two-choice	zobrist	1	6.26	12.32	16.07	19.25	22.37
+two-choice	zobrist	2	6.29	12.38	16.13	19.30	22.42
+two-choice	zobrist	3	6.29	12.36	16.10	19.28	22.39
+two-choice	zobrist	5	7.70	14.03	17.89	22.24	25.58
+two-choice	zobrist	6	6.30	12.40	16.16	19.34	22.45
+two-choice	zobrist	7	6.34	12.41	16.16	19.36	22.47
+two-choice	zobrist	8	6.56	12.93	16.67	20.11	23.41
