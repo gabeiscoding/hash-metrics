@@ -182,11 +182,13 @@ boolean insert (dict_ptr D, int key)
   }
  
   /* Forced rehash */
+/*
   if(D->size < D->meansize) 
     rehash(D, D->tablesize);
   else {
+*/
     rehash(D, 2*D->tablesize);
-  }
+/*  }*/
   insert(D,x.key);
   return TRUE;
 } /*insert*/ 
