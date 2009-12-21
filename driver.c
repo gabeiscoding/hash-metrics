@@ -240,7 +240,7 @@ void bench_interface(int *data_buf, int dsize) {
 
   for(di=0; di<dsize/2; di++) {
     key = data_buf[di];
-    found = delete(D, key);
+    delete(D, key);
   }
   printf("Deleted %d keys\n", dsize/2);
 
