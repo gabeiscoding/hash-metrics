@@ -153,21 +153,22 @@ int delete(dict *d, int key) {
   chv[0] = &d->t[hkey1];
   chv[1] = &d->t[hkey2];
 
-  ch = chv[1]->size < chv[0]->size ? chv[1] : chv[0];
-  
+  //ch = chv[1]->size < chv[0]->size ? chv[1] : chv[0];
   for(ci=0; ci<2; ci++)
     for(i=0; i<chv[ci]->size; i++) {
       if(chv[ci]->c[i].key == key) {
         d->size--;
         chv[ci]->size--;
+        for(; i<chv[ci]->size; i++)
+          chv[ci]->c[i] = chv[ci]->c[i+1];
         if(!i) d->nr_chains--;
         if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
         else if(d->min_chainsize > chv[ci]->size && chv[ci]->size < chv[ci]->maxsize/2) {
-          void *tmp = malloc(sizeof(cell) * ch->maxsize / 2);
+          void *tmp = malloc(sizeof(cell) * chv[ci]->maxsize / 2);
           if(tmp) {
-            memcpy(tmp, ch->c, sizeof(cell) * ch->maxsize/2);
-            free(ch->c);
-            ch->c = tmp;
+            memcpy(tmp, chv[ci]->c, sizeof(cell) * chv[ci]->maxsize/2);
+            free(chv[ci]->c);
+            chv[ci]->c = tmp;
           } else {
             fprintf(stderr, "error: malloc failed at %s:%d\n", __FILE__, __LINE__);
             //kill(0, 2);
@@ -175,8 +176,6 @@ int delete(dict *d, int key) {
           }
           chv[ci]->maxsize = chv[ci]->maxsize/2;
         }
-        for(; i<chv[ci]->size; i++)
-          chv[ci]->c[i] = chv[ci]->c[i+1];
         return 1;
       }
     }

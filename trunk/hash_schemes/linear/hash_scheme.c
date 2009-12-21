@@ -140,6 +140,8 @@ int delete(dict *d, int key) {
     if(ch->c[i].key == key) {
       d->size--;
       ch->size--;
+      for(; i<ch->size; i++)
+        ch->c[i] = ch->c[i+1];
       if(!i) d->nr_chains--;
       if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
       else if(d->min_chainsize > ch->size && ch->size < ch->maxsize/2) {
@@ -155,8 +157,6 @@ int delete(dict *d, int key) {
         }
         ch->maxsize = ch->maxsize/2;
       }
-      for(; i<ch->size; i++)
-        ch->c[i] = ch->c[i+1];
       return 1;
     }
   }
