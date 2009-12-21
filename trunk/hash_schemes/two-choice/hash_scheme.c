@@ -98,10 +98,10 @@ int insert(dict *d, int key) {
   for(i=0; i<ch->size; i++)
     if(ch->c[i].key == key) return 0;
 
-  if(ch->size == i) {
+  if(ch->maxsize == i) {
     void *tmp = malloc(sizeof(cell) * ch->maxsize * 2);
     if(tmp) {
-      memcpy(tmp, ch->c, ch->maxsize/2);
+      memcpy(tmp, ch->c, sizeof(cell)*ch->maxsize);
       free(ch->c);
       ch->c = tmp;
     } else {
@@ -165,7 +165,7 @@ int delete(dict *d, int key) {
         else if(d->min_chainsize > chv[ci]->size && chv[ci]->size < chv[ci]->maxsize/2) {
           void *tmp = malloc(sizeof(cell) * ch->maxsize / 2);
           if(tmp) {
-            memcpy(tmp, ch->c, ch->maxsize/2);
+            memcpy(tmp, ch->c, sizeof(cell) * ch->maxsize/2);
             free(ch->c);
             ch->c = tmp;
           } else {
