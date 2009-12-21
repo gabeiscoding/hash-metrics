@@ -35,4 +35,4 @@ done
 
 #example run:
 #./bin/write_rand -g=6 -n=252144 ./data/rand_6.bin
-#./bin/cuckoo_universal -bench -d ../enwiki9.3 -m 100000000 -r ./data/rand_6.bin
+#./bin-bench/cuckoo_universal -bench -d ../enwiki9.3 -m 100000000 -r ./data/rand_6.bin
