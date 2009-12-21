@@ -98,7 +98,7 @@ int insert(dict *d, int key) {
       ch->c = tmp;
     } else {
       fprintf(stderr, "error: malloc failed at %s:%d\n", __FILE__, __LINE__);
-      kill(0, 2);
+      //kill(0, 2);
       exit(1);
     }
     ch->maxsize *= 2;
@@ -150,7 +150,7 @@ int delete(dict *d, int key) {
           ch->c = tmp;
         } else {
           fprintf(stderr, "error: malloc failed at %s:%d\n", __FILE__, __LINE__);
-          kill(0, 2);
+          //kill(0, 2);
           exit(1);
         }
         ch->maxsize = ch->maxsize/2;

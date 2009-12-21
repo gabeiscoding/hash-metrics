@@ -107,7 +107,7 @@ int insert(dict *d, int key) {
       ch->c = tmp;
     } else {
       fprintf(stderr, "error: malloc failed at %s:%d\n", __FILE__, __LINE__);
-      kill(0, 2);
+      //kill(0, 2);
       exit(1);
     }
     ch->maxsize *= 2;
@@ -145,7 +145,7 @@ int delete(dict *d, int key) {
   int hkey1, hkey2;
   int i;
   int ci;
-  chain *chv[2];
+  chain *chv[2], *ch;
 
   hkey1 = hash(d->h1, key) & d->kmask;
   hkey2 = hash(d->h2, key) & d->kmask;
@@ -153,6 +153,8 @@ int delete(dict *d, int key) {
   chv[0] = &d->t[hkey1];
   chv[1] = &d->t[hkey2];
 
+  ch = chv[1]->size < chv[0]->size ? chv[1] : chv[0];
+  
   for(ci=0; ci<2; ci++)
     for(i=0; i<chv[ci]->size; i++) {
       if(chv[ci]->c[i].key == key) {
@@ -168,7 +170,7 @@ int delete(dict *d, int key) {
             ch->c = tmp;
           } else {
             fprintf(stderr, "error: malloc failed at %s:%d\n", __FILE__, __LINE__);
-            kill(0, 2);
+            //kill(0, 2);
             exit(1);
           }
           chv[ci]->maxsize = chv[ci]->maxsize/2;
