@@ -109,7 +109,7 @@ int insert(dict *d, int key) {
   ch->size++;
   d->size++;
 
-  if(d->tablesize < d->nr_chains) rehash(d, 2*d->tablesize);
+  //if(d->tablesize < d->nr_chains) rehash(d, 2*d->tablesize);
   return 1;
 }
 
@@ -143,8 +143,9 @@ int delete(dict *d, int key) {
       for(; i<ch->size; i++)
         ch->c[i] = ch->c[i+1];
       if(!i) d->nr_chains--;
-      if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
-      else if(d->min_chainsize > ch->size && ch->size < ch->maxsize/2) {
+      //if(d->nr_chains < d->minsize) rehash(d, d->tablesize/2);
+      //else 
+      if(d->min_chainsize > ch->size && ch->size < ch->maxsize/2) {
         void *tmp = malloc(sizeof(cell) * ch->maxsize/2);
         if(tmp) {
           memcpy(tmp, ch->c, sizeof(cell)*ch->maxsize/2);

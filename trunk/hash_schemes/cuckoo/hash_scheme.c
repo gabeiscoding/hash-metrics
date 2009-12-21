@@ -216,7 +216,7 @@ boolean delete (dict_ptr D, int key)
   if(D->T1[hkey].key==key) {
     D->T1[hkey].key = 0;
     D->size--;
-    if(D->size < D->minsize) rehash(D,D->tablesize/2);
+    //if(D->size < D->minsize) rehash(D,D->tablesize/2);
     return TRUE;
   }
   else {
@@ -224,7 +224,7 @@ boolean delete (dict_ptr D, int key)
     if(D->T2[hkey].key==key) {
       D->T2[hkey].key = 0;
       D->size--;
-      if(D->size < D->minsize) rehash(D,D->tablesize/2);
+      //if(D->size < D->minsize) rehash(D,D->tablesize/2);
       return TRUE;
     }
   }
