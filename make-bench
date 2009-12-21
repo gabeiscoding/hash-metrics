@@ -10,8 +10,8 @@ linear
 two-choice"
 
 cc=gcc
-cflags="$cflags -g -DDETAIL=1 -DINTERACTIVE=0"
-#cflags="$cflags -O2 -DDETAIL=1 -DINTERACTIVE=0"
+#cflags="$cflags -g -DDETAIL=1 -DINTERACTIVE=0"
+cflags="$cflags -O2 -DDETAIL=0 -DINTERACTIVE=0"
 
 hash_scheme_dir=hash_schemes
 hash_fn_dir=hash_functions
