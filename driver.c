@@ -225,10 +225,6 @@ void bench_interface(int *data_buf, int dsize) {
   for(di=0; di<dsize; di++) {
     key = data_buf[di];
     found = insert(D, key);
-    if (DETAIL) {
-      if(!found)
-        printf("FAILED INSERT ITEM %d KEY %d\n", di+1, key);
-    }
   }
   printf("Inserted %d keys\n", dsize);
   
@@ -245,20 +241,12 @@ void bench_interface(int *data_buf, int dsize) {
   for(di=0; di<dsize/2; di++) {
     key = data_buf[di];
     found = delete(D, key);
-    if (DETAIL) {
-      if(!found)
-        printf("FAILED DELETE ITEM %d KEY %d\n", di+1, key);
-    }
   }
   printf("Deleted %d keys\n", dsize/2);
 
   for(di=0; di<dsize/2; di++) {
     key = data_buf[di];
     found = insert(D, key);
-    if (DETAIL) {
-      if(!found)
-        printf("FAILED INSERT ITEM %d KEY %d\n", di+1, key);
-    }
   }
   printf("Inserted %d keys\n", dsize/2);
 

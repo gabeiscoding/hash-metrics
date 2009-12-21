@@ -34,7 +34,6 @@ struct dict {            /* dictionary type */
 dict *alloc_dict(int tablesize) {
   dict *d;
   int i;
-  int default_chain_size;
   
   d = calloc(1,sizeof(dict));
   d->size = 0;
@@ -50,7 +49,7 @@ dict *alloc_dict(int tablesize) {
   for(i=0; i<tablesize; i++) {
     d->t[i].maxsize = d->min_chainsize;
     d->t[i].size = 0;
-    if(!(d->t[i].c = calloc(default_chain_size, sizeof(cell)))) {
+    if(!(d->t[i].c = calloc(d->min_chainsize, sizeof(cell)))) {
       fprintf(stderr,"Error while allocating mem for chain\n");
       exit(0);
     }
@@ -106,7 +105,8 @@ int insert(dict *d, int key) {
       free(ch->c);
       ch->c = tmp;
     } else {
-      fprintf(stderr, "error: malloc failed at %s:%d\n", __FILE__, __LINE__);
+      fprintf(stderr, "error: malloc failed allocating %d at %s:%d\n", 
+	      sizeof(cell) * ch->maxsize * 2, __FILE__, __LINE__);
       //kill(0, 2);
       exit(1);
     }
