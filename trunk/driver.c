@@ -15,7 +15,7 @@
 /*----------------------------------------------*/
 
 void usage(char **av) {
-  fprintf(stderr, "usage: %s [-m min_size] [-r rand_file] [-i] [-ci] [-c command_file] [-d key_data]\n", av[0]);
+  fprintf(stderr, "usage: %s [-m min_size] [-r rand_file] [-i] [-bench][-ci] [-c command_file] [-d key_data]\n", av[0]);
   exit(1);
 }
 
@@ -214,12 +214,80 @@ void insertall_interface(int *data_buf, int dsize) {
   }
 }
 
+void bench_interface(int *data_buf, int dsize) {
+  //Start benchmark
+  clock_t s_clock = clock();
+  time_t  s_time; time(&s_time);
+
+  int di;
+  int key;
+  boolean found;
+  for(di=0; di<dsize; di++) {
+    key = data_buf[di];
+    found = insert(D, key);
+    if (DETAIL) {
+      if(!found)
+        printf("FAILED INSERT ITEM %d KEY %d\n", di+1, key);
+    }
+  }
+  printf("Inserted %d keys\n", dsize);
+  
+  for(di=0; di<dsize; di++) {
+    key = data_buf[di];
+    found = lookup(D, key);
+    if (DETAIL) {
+      if(!found)
+        printf("FAILED LOOKUP ITEM %d KEY %d\n", di+1, key);
+    }
+  }
+  printf("Looked up %d keys\n", dsize);
+
+  for(di=0; di<dsize/2; di++) {
+    key = data_buf[di];
+    found = delete(D, key);
+    if (DETAIL) {
+      if(!found)
+        printf("FAILED DELETE ITEM %d KEY %d\n", di+1, key);
+    }
+  }
+  printf("Deleted %d keys\n", dsize/2);
+
+  for(di=0; di<dsize/2; di++) {
+    key = data_buf[di];
+    found = insert(D, key);
+    if (DETAIL) {
+      if(!found)
+        printf("FAILED INSERT ITEM %d KEY %d\n", di+1, key);
+    }
+  }
+  printf("Inserted %d keys\n", dsize/2);
+
+  for(di=0; di<dsize/2; di++) {
+    key = data_buf[di];
+    found = lookup(D, key);
+    if (DETAIL) {
+      if(!found)
+        printf("FAILED LOOKUP ITEM %d KEY %d\n", di+1, key);
+    }
+  }
+  printf("Looked up %d keys\n", dsize/2);
+
+  //End timer
+  clock_t e_clock = clock();
+  time_t  e_time; time(&e_time);
+
+  //Print time metrics
+  printf("clocks: %d\n", e_clock - s_clock);
+  printf("secs: %.21f\n", difftime(e_time, s_time));
+}
+
 /* Driver reads commands, calls routines, reports */
 int main(int argc, char **argv)
 {
   int argi;
   int interactive = 0;
   int insertall = 0;
+  int bench = 0;
   char *rand_fn = 0;
   char *command_fn = 0;
   char *data_fn = 0;
@@ -246,6 +314,9 @@ int main(int argc, char **argv)
     } else if(!strcmp("-ci", argv[argi])) {
       argi++;
       insertall = 1;
+    } else if(!strcmp("-all", argv[argi])) {
+      argi++;
+      bench = 1;
     } else if(!strcmp("-c", argv[argi])) {
       argi++;
       if(argi == argc) usage(argv);
@@ -263,7 +334,7 @@ int main(int argc, char **argv)
 
   if(data_fn) {
     int di;
-    if(!(insertall || command_fn)) {
+    if(!(insertall || command_fn || bench)) {
       fprintf(stderr, "error: specify -d\n");
       exit(1);
     }
@@ -290,6 +361,7 @@ int main(int argc, char **argv)
   fprintf(stderr, "[begin]\n");
   if(interactive) interactive_interface();
   else if(insertall) insertall_interface(data_buf, dsize);
+  else if(bench) bench_interface(data_buf, dsize);
   else if(command_fn) command_interface(data_buf, dsize, command_fn);
   else original_interface();
   fprintf(stderr, "[end]\n");
